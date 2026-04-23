@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="room.css">
+<title>Room Details</title>
+</head>
+
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <img src="tkz6AEwJw9pfTYHsoJpRJo.jpg">
+    <div class="show-photos" id="openGalleryBtn">
+    Show other photos
+</div>
+</div>
+
+<!-- CONTENT BACK -->
+<div class="container">
+
+    <div class="info">
+        <div class="title">Lakeside Villa</div>
+        <div class="location">San Pablo, Laguna • Philippines</div>
+
+        <div class="price">₱5,000 / hour</div>
+
+        <div class="desc">
+            Enjoy a luxurious beachfront villa with ocean view, private pool,
+            relaxing ambiance, and peaceful environment perfect for vacation.
+        </div>
+
+        <h3 style="margin-top:20px;">Amenities</h3>
+
+        <div class="amenities">
+            <span class="tag">WiFi</span>
+            <span class="tag">Pool</span>
+            <span class="tag">Aircon</span>
+            <span class="tag">Kitchen</span>
+            <span class="tag">Parking</span>
+        </div>
+
+        <h3 style="margin-top:20px;">Airbnb Rules</h3>
+
+        <div class="rules">
+            <p>🚫 No smoking inside</p>
+            <p>🚫 No illegal activities</p>
+            <p>✔ Respect the place</p>
+        </div>
+    </div>
+
+    <div class="booking">
+        <h3>Reserve</h3>
+        <input type="text" placeholder="Full Name">
+        <input type="date">
+        <input type="number" placeholder="Hours">
+        <input type="number" placeholder="Guests">
+        <button>Book Now</button>
+    </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+
+        <span class="close" id="closeModal">&times;</span>
+
+        <span class="nav prev" id="prevBtn">&#10094;</span>
+
+        <img id="modalImg">
+
+        <span class="nav next" id="nextBtn">&#10095;</span>
+
+    </div>
+</div>
+
+<script>
+
+ document.addEventListener("DOMContentLoaded", function () {
+
+    const images = [
+        "tkz6AEwJw9pfTYHsoJpRJo.jpg",
+        "https://images.unsplash.com/photo-1505691938895-1758d7feb511",
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb"
+    ];
+
+    let currentIndex = 0;
+    let interval;
+
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modalImg");
+
+    const openBtn = document.getElementById("openGalleryBtn");
+    const closeBtn = document.getElementById("closeModal");
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+
+    // OPEN
+    openBtn.addEventListener("click", function () {
+        openModal(0);
+    });
+
+    // CLOSE
+    closeBtn.addEventListener("click", closeModal);
+
+    // NAV
+    nextBtn.addEventListener("click", function () {
+        changeSlide(1);
+    });
+
+    prevBtn.addEventListener("click", function () {
+        changeSlide(-1);
+    });
+
+    function openModal(index) {
+        currentIndex = index;
+        modal.style.display = "flex";
+        showImage();
+        startAuto();
+    }
+
+    function closeModal() {
+        modal.style.display = "none";
+        stopAuto();
+    }
+
+    function showImage() {
+        modalImg.src = images[currentIndex];
+    }
+
+    function changeSlide(step) {
+        currentIndex = (currentIndex + step + images.length) % images.length;
+        showImage();
+        restartAuto();
+    }
+
+    function startAuto() {
+        stopAuto();
+        interval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % images.length;
+            showImage();
+        }, 3000);
+    }
+
+    function stopAuto() {
+        clearInterval(interval);
+    }
+
+    function restartAuto() {
+        startAuto();
+    }
+
+    // click outside modal
+    modal.addEventListener("click", function (e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+});
+</script>
+
+</body>
+</html>
